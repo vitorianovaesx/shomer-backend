@@ -6,16 +6,14 @@ on:
   pull_request:
     branches: [main]
 
-# Disable email notifications for workflow failures
-notifications:
-  email: false
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Continue even if one job fails (don't cancel others)
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v4
