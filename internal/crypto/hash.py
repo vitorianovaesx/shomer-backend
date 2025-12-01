@@ -26,3 +26,4 @@ def hash_stream(stream: BinaryIO) -> str:
         sha256_hash.update(byte_block)
     return sha256_hash.hexdigest()
 
+

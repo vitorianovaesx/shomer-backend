@@ -75,3 +75,4 @@ def test_manifest_with_classification():
     assert "classification" in data
     assert data["classification"]["classification"] == "positive"
 
+

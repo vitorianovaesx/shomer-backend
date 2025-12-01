@@ -26,11 +26,10 @@ class PIIDetector:
             self._use_presidio = True
             try:
                 # Initialize Presidio analyzer
-                provider = NlpEngineProvider(conf_file=None)
-                nlp_engine = provider.create_engine()
-                self.analyzer = AnalyzerEngine(nlp_engine=nlp_engine, supported_languages=self.languages)
-            except Exception:
-                # Fallback to regex if Presidio fails
+                # Use default configuration which doesn't require model downloads
+                self.analyzer = AnalyzerEngine(supported_languages=self.languages)
+            except Exception as e:
+                # Fallback to regex if Presidio fails (e.g., model download issues)
                 self._use_presidio = False
                 self._init_regex_patterns()
 
@@ -77,4 +76,5 @@ class PIIDetector:
     def has_pii(self, text: str) -> bool:
         """Check if text contains PII."""
         return len(self.detect(text)) > 0
+
 

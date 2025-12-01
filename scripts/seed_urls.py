@@ -30,3 +30,4 @@ if __name__ == "__main__":
 
     print(f"Updated {len(seed_urls)} seed URLs in {config_path}")
 
+

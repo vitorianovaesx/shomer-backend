@@ -64,3 +64,4 @@ def test_custody_logger_no_pii():
     finally:
         log_path.unlink()
 
+

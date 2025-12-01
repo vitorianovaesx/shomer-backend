@@ -80,3 +80,4 @@ def test_vault():
         with pytest.raises(FileNotFoundError):
             vault.retrieve("non-existent-ref")
 
+

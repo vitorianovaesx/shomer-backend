@@ -17,7 +17,6 @@ dependencies = [
     "beautifulsoup4>=4.12.0",
     "lxml>=4.9.0",
     "cryptography>=41.0.0",
-    "pycryptodome>=3.19.0",
     "python-multipart>=0.0.6",
     "aiofiles>=23.2.0",
     "presidio-analyzer>=2.2.0",
@@ -59,4 +58,10 @@ omit = ["*/tests/*", "*/test_*.py"]
 precision = 2
 show_missing = true
 skip_covered = false
+
+[tool.setuptools]
+packages = ["internal", "api", "cmd", "scripts"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml"]
 

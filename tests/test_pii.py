@@ -64,3 +64,4 @@ def test_pseudonymizer_requires_key():
     with pytest.raises(ValueError):
         Pseudonymizer("")
 
+

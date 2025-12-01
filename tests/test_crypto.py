@@ -78,3 +78,4 @@ def test_get_or_create_keypair():
         # Verify with second keypair (should work if same keys)
         assert verify_signature(public_key2, signature, data) is True
 
+

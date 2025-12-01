@@ -60,3 +60,4 @@ class Classifier:
         """Close HTTP client."""
         await self.client.aclose()
 
+

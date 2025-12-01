@@ -56,3 +56,4 @@ class ChainOfCustodyLogger:
 
         return events
 
+

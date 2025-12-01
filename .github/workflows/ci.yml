@@ -28,10 +28,14 @@ jobs:
           pip install pytest pytest-asyncio pytest-cov
 
       - name: Run tests with coverage
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          SHOMER_HMAC_KEY: test-hmac-key-for-ci-testing-12345678901234567890123456789012
         run: |
           pytest --cov=internal --cov=api --cov=cmd --cov-report=term-missing --cov-report=xml
 
       - name: Check coverage threshold
         run: |
           coverage report --fail-under=60
+
 
