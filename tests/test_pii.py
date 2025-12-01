@@ -13,17 +13,21 @@ def test_pii_detector_basic():
     # Test email detection
     text_with_email = "Contact us at test@example.com for more info."
     detections = detector.detect(text_with_email)
-    assert len(detections) > 0
+    # Should detect email (regex fallback should work even if Presidio fails)
+    assert len(detections) > 0, "Should detect email in text"
 
     # Test phone detection
     text_with_phone = "Call us at 555-123-4567"
     detections = detector.detect(text_with_phone)
-    assert len(detections) > 0
+    # Should detect phone (regex fallback should work)
+    assert len(detections) > 0, "Should detect phone in text"
 
     # Test no PII
     text_no_pii = "This is a simple text without any personal information."
     detections = detector.detect(text_no_pii)
     # May or may not detect false positives, but should not crash
+    # Just verify it doesn't raise an exception
+    assert isinstance(detections, list)
 
 
 def test_pseudonymizer_deterministic():
