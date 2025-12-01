@@ -27,3 +27,4 @@ def hash_stream(stream: BinaryIO) -> str:
     return sha256_hash.hexdigest()
 
 
+
