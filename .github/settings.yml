@@ -1,0 +1,11 @@
+# GitHub repository settings
+# Note: This file is informational only. 
+# To disable email notifications, go to:
+# Repository Settings > Notifications > Actions > Uncheck "Email"
+
+# To disable email notifications via GitHub CLI:
+# gh api repos/:owner/:repo --method PATCH -f allow_squash_merge=true -f allow_rebase_merge=true
+
+# Or via GitHub web interface:
+# Settings > Notifications > Actions > Uncheck "Email"
+

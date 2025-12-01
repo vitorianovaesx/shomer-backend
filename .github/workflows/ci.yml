@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+# Disable email notifications for workflow failures
+notifications:
+  email: false
+
 jobs:
   test:
     runs-on: ubuntu-latest
