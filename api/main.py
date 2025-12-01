@@ -35,10 +35,21 @@ config = None
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     global pipeline, config
-    config = load_config()
-    pipeline = IngestionPipeline(config)
+    try:
+        config = load_config()
+        # Only initialize pipeline if HMAC key is configured
+        if config.pii.hmac_key:
+            pipeline = IngestionPipeline(config)
+        else:
+            pipeline = None
+    except Exception as e:
+        # Log error but don't fail startup - health check will report status
+        print(f"Warning: Failed to initialize pipeline: {e}")
+        pipeline = None
+        config = None
     yield
-    await pipeline.close()
+    if pipeline:
+        await pipeline.close()
 
 
 app = FastAPI(
@@ -51,6 +62,11 @@ app = FastAPI(
 
 def verify_admin_token(authorization: str = Header(None)) -> bool:
     """Verify admin token."""
+    if config is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Service not configured",
+        )
     if not authorization:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -70,12 +86,24 @@ def verify_admin_token(authorization: str = Header(None)) -> bool:
 @app.get("/healthz")
 async def healthcheck():
     """Health check endpoint."""
+    # Health check should work even if pipeline is not initialized
+    if config is None or pipeline is None:
+        return {
+            "status": "degraded",
+            "service": "shomer-backend",
+            "message": "Pipeline not initialized - check configuration",
+        }
     return {"status": "ok", "service": "shomer-backend"}
 
 
 @app.post("/ingest", response_model=IngestResponse)
 async def ingest(request: IngestRequest):
     """Ingest a URL and create a case."""
+    if pipeline is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Pipeline not initialized - check configuration",
+        )
     try:
         case_id = await pipeline.ingest(request.url)
         return IngestResponse(case_id=case_id, status="created")
@@ -89,6 +117,11 @@ async def ingest(request: IngestRequest):
 @app.get("/cases/{case_id}/pack.zip")
 async def get_pack(case_id: str):
     """Get case pack ZIP file."""
+    if config is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Service not configured",
+        )
     case_store = CaseStore(Path(config.storage.sqlite_path))
     case = case_store.get_case(case_id)
 
@@ -115,6 +148,11 @@ async def get_pack(case_id: str):
 @app.post("/cases/{case_id}/request_vault_access")
 async def request_vault_access(case_id: str, authorization: str = Header(None)):
     """Request vault access for a case (admin only)."""
+    if config is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Service not configured",
+        )
     verify_admin_token(authorization)
 
     case_store = CaseStore(Path(config.storage.sqlite_path))
@@ -150,6 +188,11 @@ async def request_vault_access(case_id: str, authorization: str = Header(None)):
 @app.get("/cases/{case_id}")
 async def get_case(case_id: str):
     """Get case details."""
+    if config is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Service not configured",
+        )
     case_store = CaseStore(Path(config.storage.sqlite_path))
     case = case_store.get_case(case_id)
 
