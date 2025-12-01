@@ -35,7 +35,7 @@ cp .env.example .env
 python scripts/seed_urls.py
 
 # Run the API server
-python -m cmd.shomer serve
+python -m cli.shomer serve
 # Or use Makefile:
 # make serve
 ```
@@ -63,7 +63,7 @@ curl -X POST http://localhost:8000/cases/{case_id}/request_vault_access \
 
 ```bash
 # Ingest via CLI
-python -m cmd.shomer ingest https://example.com
+python -m cli.shomer ingest https://example.com
 ```
 
 ## Project Structure
@@ -90,7 +90,7 @@ shomer-backend/
 pytest
 
 # Run tests with coverage
-pytest --cov=internal --cov=api --cov=cmd --cov-report=html
+pytest --cov=internal --cov=api --cov=cli --cov-report=html
 
 # Format code
 black .

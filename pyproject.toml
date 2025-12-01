@@ -51,7 +51,7 @@ python_functions = ["test_*"]
 asyncio_mode = "auto"
 
 [tool.coverage.run]
-source = ["internal", "api", "cmd"]
+source = ["internal", "api", "cli"]
 omit = ["*/tests/*", "*/test_*.py"]
 
 [tool.coverage.report]
@@ -60,7 +60,7 @@ show_missing = true
 skip_covered = false
 
 [tool.setuptools]
-packages = ["internal", "api", "cmd", "scripts"]
+packages = ["internal", "api", "cli", "scripts"]
 
 [tool.setuptools.package-data]
 "*" = ["*.yaml", "*.yml"]

@@ -150,10 +150,11 @@ cp .env.example .env
 # Edit .env with SHOMER_HMAC_KEY and SHOMER_ADMIN_TOKEN
 
 # Run
-python -m cmd.shomer serve
+python -m cli.shomer serve
 
 # Test
 pytest --cov
 ```
+
 
 

@@ -8,7 +8,7 @@ test:
 	pytest
 
 test-cov:
-	pytest --cov=internal --cov=api --cov=cmd --cov-report=term-missing --cov-report=html
+	pytest --cov=internal --cov=api --cov=cli --cov-report=term-missing --cov-report=html
 
 lint:
 	ruff check .
@@ -19,7 +19,7 @@ format:
 	ruff check --fix .
 
 serve:
-	python -m cmd.shomer serve
+	python -m cli.shomer serve
 
 clean:
 	find . -type d -name __pycache__ -exec rm -r {} +
@@ -31,5 +31,6 @@ clean:
 	rm -rf dist
 	rm -rf build
 	rm -rf *.egg-info
+
 
 
