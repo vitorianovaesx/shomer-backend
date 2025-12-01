@@ -1,0 +1,45 @@
+# Shomer Backend Configuration
+
+# Seed URLs for ingestion (15-20 URLs)
+seed_urls:
+  - "https://example.com"
+  - "https://example.org"
+  # Add more URLs here
+
+# Storage configuration
+storage:
+  base_path: "./data"
+  vault_path: "./vault"
+  sqlite_path: "./data/shomer.db"
+
+# Cryptographic configuration
+crypto:
+  key_path: "./keys"
+  key_name: "shomer-key"
+
+# PII configuration
+pii:
+  # HMAC key for deterministic pseudonymization (should be in env var)
+  hmac_key: ""  # Set via SHOMER_HMAC_KEY env var
+  # PII detection languages
+  languages: ["en"]
+
+# Classification configuration
+classify:
+  # ML service endpoint (to be configured)
+  ml_endpoint: "http://localhost:8001/classify"
+  timeout: 30
+
+# API configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  admin_token: ""  # Set via SHOMER_ADMIN_TOKEN env var
+
+# Retention policies (in days)
+retention:
+  vault_originals: 730  # 2 years
+  packs: 365  # 1 year
+  manifests: 1825  # 5 years
+  chain_of_custody: 2555  # 7 years
+

@@ -1,0 +1,2 @@
+"""Shomer CLI commands."""
+
